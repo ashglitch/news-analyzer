@@ -1,0 +1,33 @@
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+
+# Local database
+verity.db
+*.sqlite
+*.sqlite3
+*.db
+
+# Dataset files (large)
+data/*.csv
+
+# Temporary test and evaluation scripts
+test_samples.py
+check_model.py
+evaluate_saved_model.py
+check_duplicates.py
+
+# Editor and operating system files
+.vscode/
+.DS_Store
+Thumbs.db
+# Temporary terminal files
+terminal/
+
+# Python cache
+__pycache__/

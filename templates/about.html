@@ -1,0 +1,54 @@
+
+{% extends "base.html" %}
+
+{% block title %}About Verity{% endblock %}
+
+{% block content %}
+<section class="about-hero">
+    <span class="section-kicker">ABOUT THE PROJECT</span>
+    <h1>In a world of headlines, <em>context matters.</em></h1>
+    <p>
+        Verity is a Web Technology project exploring how simple computational
+        methods can help readers reflect on the language used in news articles.
+    </p>
+</section>
+
+<section class="about-grid">
+    <article class="about-card">
+        <span class="section-kicker">01 / PURPOSE</span>
+        <h2>Encourage critical reading.</h2>
+        <p>
+            The project examines selected sensational wording, punctuation,
+            and uppercase expressions that may influence how a headline is perceived.
+        </p>
+    </article>
+    <article class="about-card">
+        <span class="section-kicker">02 / TECHNOLOGY</span>
+        <h2>A practical web application.</h2>
+        <p>
+            Flask handles application routes, Python performs the initial
+            language-pattern analysis, SQLite stores reports, and HTML, CSS,
+            and JavaScript power the interface.
+        </p>
+    </article>
+    <article class="about-card">
+        <span class="section-kicker">03 / LIMITATIONS</span>
+        <h2>Signals are not verdicts.</h2>
+        <p>
+            This prototype does not independently verify claims, identify
+            trustworthy sources, or determine whether an article is true.
+            Its initial scoring system is rule-based, not a trained machine-learning model.
+        </p>
+    </article>
+</section>
+
+<section class="about-note">
+    <span class="section-kicker">THE NEXT STEP</span>
+    <h2>From language signals to evidence-based analysis.</h2>
+    <p>
+        Future improvements could include a trained text classifier, source
+        verification tools, and more extensive evaluation against labeled data.
+        Such additions would need careful testing before making credibility claims.
+    </p>
+</section>
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block title %}Verity — Look Beyond the Headline{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> THE NEW WAY TO READ THE NEWS</div>
+        <h1>Every headline<br>has a <span>story.</span><br><em>Find the signal.</em></h1>
+        <p class="hero-description">
+            The news moves fast. Verity helps you slow down, examine the language,
+            and spot sensational wording before you share a story.
+        </p>
+        <div class="hero-actions">
+            <a href="#analyzer" class="button button-primary">Analyze a story <span>↘</span></a>
+            <a href="#how-it-works" class="text-link">How it works <span>→</span></a>
+        </div>
+        <div class="hero-footnote">
+            <span class="red-mark">✳</span>
+            LANGUAGE-BASED ANALYSIS, NOT A VERDICT ON TRUTH
+        </div>
+    </div>
+
+    <div class="hero-visual">
+        <div class="visual-topline">
+            <span>FIELD NOTE / 001</span>
+            <span>VERITY LABS</span>
+        </div>
+
+        <div class="paper-card">
+            <div class="paper-label"><span class="paper-dot"></span> HEADLINE UNDER THE LENS</div>
+            <div class="paper-category">MEDIA · LANGUAGE · CONTEXT</div>
+            <h2>“You won't believe what happened next…”</h2>
+            <p class="paper-body">
+                Big claims attract attention. But does the language inform you,
+                or is it trying to provoke a reaction?
+            </p>
+            <div class="paper-divider"></div>
+            <div class="paper-bottom">
+                <span>EXAMPLE HEADLINE</span>
+                <span class="paper-stamp">LOOK<br>CLOSER</span>
+            </div>
+        </div>
+
+        <div class="floating-note note-top">
+            <span class="note-icon">✳</span>
+            <div><strong>Language signals</strong><small>Words worth examining</small></div>
+        </div>
+        <div class="floating-note note-bottom">
+            <span class="mini-bars"><i></i><i></i><i></i><i></i><i></i></span>
+            <div><strong>Context matters</strong><small>Analysis, not a truth detector</small></div>
+        </div>
+        <div class="visual-index">01 <span>/</span> 04</div>
+    </div>
+</section>
+
+<section class="ticker">
+    <span>LESS REACTING.</span><span class="ticker-star">✳</span>
+    <span>MORE QUESTIONING.</span><span class="ticker-star">✳</span>
+    <span>BETTER READING.</span><span class="ticker-star">✳</span>
+    <span>LESS REACTING.</span>
+</section>
+
+<section class="analyzer-section" id="analyzer">
+    <div class="section-heading">
+        <div>
+            <div class="eyebrow"><span class="eyebrow-line"></span> YOUR READING DESK</div>
+            <h2>Put a story <em>under the lens.</em></h2>
+        </div>
+        <p>Paste a headline and article text.<br>We'll examine the language used.</p>
+    </div>
+
+    <div class="workspace">
+        <div class="form-panel">
+            <div class="panel-header">
+                <div class="panel-number">01</div>
+                <div><h3>Submit an article</h3><p>Give us the story, not just the link.</p></div>
+                <span class="panel-tag">INPUT</span>
+            </div>
+
+            <form action="{{ url_for('analyze') }}" method="POST" id="analysis-form">
+                <label for="headline">ARTICLE HEADLINE <span>REQUIRED</span></label>
+                <input type="text" id="headline" name="headline"
+                       placeholder="Enter the article's headline..."
+                       maxlength="300" required>
+
+                <div class="label-row">
+                    <label for="article_text">ARTICLE TEXT</label>
+                    <span class="required-label">REQUIRED</span>
+                </div>
+                <textarea id="article_text" name="article_text"
+                          placeholder="Paste the article text here. Include enough context for a more useful analysis..."
+                          rows="9" maxlength="12000" required></textarea>
+
+                <div class="input-meta">
+                    <span>Paste the article's main text</span>
+                    <span id="char-count">0 characters</span>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="button button-primary submit-button">
+                        <span>Analyze this story</span><span class="button-arrow">↗</span>
+                    </button>
+                    <button type="button" id="sample-button" class="sample-button">
+                        Try a sample <span>＋</span>
+                    </button>
+                </div>
+                <p class="privacy-note"><span>✳</span> Your analysis is saved locally in this app's history.</p>
+            </form>
+        </div>
+
+        <aside class="guide-panel">
+            <div class="guide-top">
+                <span class="guide-label">WHAT WE LOOK FOR</span>
+                <span class="guide-cross">✳</span>
+            </div>
+            <h3>Read the words.<br><em>Question the framing.</em></h3>
+            <div class="signal-item">
+                <span class="signal-number">01</span>
+                <div><strong>Sensational language</strong><p>Words designed to shock, excite, or provoke.</p></div>
+                <span class="signal-arrow">↗</span>
+            </div>
+            <div class="signal-item">
+                <span class="signal-number">02</span>
+                <div><strong>Emphasis & punctuation</strong><p>Repeated exclamation marks and all-caps wording.</p></div>
+                <span class="signal-arrow">↗</span>
+            </div>
+            <div class="signal-item">
+                <span class="signal-number">03</span>
+                <div><strong>Language score</strong><p>A simple indicator of signals found in the text.</p></div>
+                <span class="signal-arrow">↗</span>
+            </div>
+            <div class="guide-disclaimer">
+                <span class="disclaimer-mark">!</span>
+                <p><strong>Important distinction</strong><br>A sensational headline does not automatically mean a story is false. Verity analyzes wording, not factual accuracy.</p>
+            </div>
+        </aside>
+    </div>
+</section>
+
+<section class="how-section" id="how-it-works">
+    <div class="how-intro">
+        <div class="eyebrow"><span class="eyebrow-line"></span> THE METHOD</div>
+        <h2>Three steps.<br><em>A clearer read.</em></h2>
+        <p>Think of Verity as a reading companion — not a replacement for your own judgement.</p>
+    </div>
+    <div class="steps">
+        <article class="step-card">
+            <span class="step-index">01 / INPUT</span>
+            <div class="step-icon">↳</div>
+            <h3>Bring the story</h3>
+            <p>Enter a headline and paste the article's text into the reading desk.</p>
+        </article>
+        <article class="step-card step-highlight">
+            <span class="step-index">02 / EXAMINE</span>
+            <div class="step-icon">⌕</div>
+            <h3>Inspect the language</h3>
+            <p>The analyzer checks for selected sensational phrases, punctuation, and uppercase emphasis.</p>
+        </article>
+        <article class="step-card">
+            <span class="step-index">03 / REFLECT</span>
+            <div class="step-icon">↗</div>
+            <h3>Read the report</h3>
+            <p>Review the score, the signals detected, and the limits of what they can tell you.</p>
+        </article>
+    </div>
+</section>
+
+<section class="closing-banner">
+    <div class="closing-symbol">V<span>.</span></div>
+    <div><span class="closing-kicker">A SMALL PAUSE IN A LOUD WORLD</span><h2>Don't just read the headline.<br><em>Read it critically.</em></h2></div>
+    <a href="#analyzer" class="closing-link">START READING <span>↗</span></a>
+</section>
+{% endblock %}

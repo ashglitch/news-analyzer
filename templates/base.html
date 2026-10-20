@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Verity is a news intelligence and credibility analysis project.">
+    <title>{% block title %}Verity — News Intelligence{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <div class="top-strip">INDEPENDENT THINKING. INFORMED READING.</div>
+
+    <header class="site-header">
+        <a href="{{ url_for('index') }}" class="brand">
+            <span class="brand-mark">V.</span>
+            <span>
+                <strong>VERITY</strong>
+                <small>NEWS INTELLIGENCE</small>
+            </span>
+        </a>
+
+        <nav class="main-nav">
+            <a href="{{ url_for('index') }}">Analyze</a>
+            <a href="{{ url_for('history') }}">History</a>
+            <a href="{{ url_for('about') }}">About</a>
+        </nav>
+    </header>
+
+    <main class="page-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-list">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-brand">VERITY<span>.</span></div>
+        <p>A student-built exploration of news language and credibility signals.</p>
+        <p class="footer-note">
+            Verity is an educational prototype, not a fact-checking authority.
+        </p>
+    </footer>
+</body>
+</html>

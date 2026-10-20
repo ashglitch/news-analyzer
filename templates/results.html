@@ -1,0 +1,207 @@
+
+{% extends "base.html" %}
+{% block title %}Analysis Report — Verity{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+    <div class="page-kicker">VERITY LAB / REPORT #{{ result.id }}</div>
+    <h1 class="page-title">Inside the <em>headline.</em></h1>
+    <p class="page-intro">
+        Your analysis is ready. Explore the language signals, sentiment,
+        and machine-learning prediction, then verify the claims with reliable sources.
+    </p>
+
+    <div class="report-card">
+        <div class="page-kicker">ARTICLE ANALYZED</div>
+        <h2 class="page-title" style="font-size:clamp(25px,4vw,38px)">
+            {{ result.headline }}
+        </h2>
+
+        {% if result.description %}
+            <p class="report-text">{{ result.description }}</p>
+        {% elif result.summary %}
+            <p class="report-text">{{ result.summary }}</p>
+        {% endif %}
+
+        <!-- CREDIBILITY / LANGUAGE RISK -->
+        <div class="page-kicker" style="margin-top:30px">
+            CREDIBILITY TEXT-RISK INDICATOR
+        </div>
+
+        <div class="report-score">
+            {{ result.credibility_score if result.credibility_score is defined else result.score }}
+            <span style="font-size:22px;color:#8b8178"> / 100</span>
+        </div>
+
+        <span class="report-level">
+            {{ result.credibility_rating if result.credibility_rating is defined else result.level }}
+        </span>
+
+        <div class="report-meter">
+            <span style="width:{{ result.credibility_score if result.credibility_score is defined else result.score }}%"></span>
+        </div>
+
+        <p class="report-text">
+            This is a text-based indicator, not a verified credibility rating.
+            Sensational wording and missing attribution do not prove that a
+            story is false. Verity does not independently verify facts.
+        </p>
+
+        <!-- MACHINE LEARNING PREDICTION -->
+        <div style="margin-top:32px;padding:24px;background:#fffaf5;border:1px solid #d8c6b8;border-radius:12px">
+            <div class="page-kicker">VERITY AI / MODEL ANALYSIS</div>
+
+            <h3 style="font:600 28px var(--serif);margin:12px 0">
+                ML News Classification
+            </h3>
+
+            {% if result.model_prediction is defined and result.model_prediction != "Unavailable" %}
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+                    <div>
+                        <div class="page-kicker">MODEL PREDICTION</div>
+                        <div style="font:600 34px var(--serif);margin-top:8px">
+                            {{ result.model_prediction }}
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="page-kicker">MODEL CONFIDENCE</div>
+                        <div style="font-size:28px;font-weight:600;margin-top:8px">
+                            {% if result.model_confidence is defined and result.model_confidence is not none %}
+                                {{ "%.2f"|format(result.model_confidence) }}%
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                {% if result.model_confidence is defined and result.model_confidence is not none %}
+                    <div class="report-meter" style="margin-top:20px">
+                        <span style="width:{{ [[result.model_confidence, 0]|max, 100]|min }}%"></span>
+                    </div>
+                {% endif %}
+
+                <p class="report-text" style="margin-top:16px">
+                    {{ result.model_note if result.model_note is defined else "This is a machine-learning prediction, not a verified fact-check." }}
+                </p>
+            {% else %}
+                <p class="report-text">
+                    The trained machine-learning model is unavailable.
+                    The other analysis results are still available.
+                </p>
+            {% endif %}
+
+            <p class="report-text" style="margin-top:12px;font-size:13px">
+                Model predictions can be incorrect, especially on unfamiliar
+                or short articles. Confidence is not proof of truth.
+                Always cross-check important claims with reliable sources.
+            </p>
+        </div>
+
+        <!-- ARTICLE SENTIMENT -->
+        <div style="margin-top:32px;padding:24px;background:#f7f1e9;border:1px solid #e3d9d0;border-radius:12px">
+            <div class="page-kicker">ARTICLE SENTIMENT</div>
+
+            <h3 style="font:600 30px var(--serif);margin:10px 0">
+                {{ result.sentiment if result.sentiment is defined else "Not available" }}
+            </h3>
+
+            {% if result.sentiment_confidence is defined %}
+                <p class="report-text">
+                    Lexicon signal strength: {{ result.sentiment_confidence }}%
+                </p>
+            {% endif %}
+
+            <p class="report-text">
+                This estimates the emotional tone of the text. It does not
+                measure whether the story is accurate or biased.
+            </p>
+
+            {% if result.positive_words is defined and result.positive_words %}
+                <p class="report-text">
+                    <strong>Positive signals:</strong>
+                    {{ result.positive_words|join(", ") }}
+                </p>
+            {% endif %}
+
+            {% if result.negative_words is defined and result.negative_words %}
+                <p class="report-text">
+                    <strong>Negative signals:</strong>
+                    {{ result.negative_words|join(", ") }}
+                </p>
+            {% endif %}
+        </div>
+
+        <!-- ARTICLE DETAILS -->
+        <div style="display:flex;gap:30px;flex-wrap:wrap;margin-top:25px;padding-top:20px;border-top:1px solid #e3d9d0">
+            <div>
+                <div class="page-kicker">WORD COUNT</div>
+                <strong style="font-size:24px">
+                    {{ result.word_count if result.word_count is defined else result.article_text.split()|length }}
+                </strong>
+            </div>
+
+            <div>
+                <div class="page-kicker">LANGUAGE SIGNALS</div>
+                <strong style="font-size:24px">
+                    {{ result.matched_terms|length if result.matched_terms is defined else result.credibility_reasons|length if result.credibility_reasons is defined else 0 }}
+                </strong>
+            </div>
+
+            <div>
+                <div class="page-kicker">ANALYZED ON</div>
+                <strong style="font-size:13px">
+                    {{ result.created_at if result.created_at is defined else "Just now" }}
+                </strong>
+            </div>
+        </div>
+
+        <!-- EXPLANATIONS -->
+        <h3 style="font:600 23px var(--serif);margin-top:32px">
+            What stood out?
+        </h3>
+
+        {% if result.credibility_reasons is defined and result.credibility_reasons %}
+            <ul class="term-list">
+                {% for reason in result.credibility_reasons %}
+                    <li>{{ reason }}</li>
+                {% endfor %}
+            </ul>
+        {% elif result.matched_terms is defined and result.matched_terms %}
+            <p class="report-text">
+                Selected sensational phrases were detected:
+            </p>
+            <ul class="term-list">
+                {% for term in result.matched_terms %}
+                    <li>{{ term }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="report-text">
+                No major language signals were identified by the available checks.
+                This does not guarantee neutral language or factual accuracy.
+            </p>
+        {% endif %}
+
+        <div class="guide-disclaimer" style="margin-top:28px">
+            <span class="disclaimer-mark">!</span>
+            <p>
+                <strong>Before you share:</strong><br>
+                Check the original source, publication date, named evidence,
+                and independent reporting. Sentiment is not truth, and this
+                prototype does not independently fact-check news.
+            </p>
+        </div>
+
+        <div class="report-actions">
+            <a href="{{ url_for('index') }}#analyzer" class="button button-primary">
+                Analyze another story ↗
+            </a>
+            <a href="{{ url_for('history') }}" class="outline-button">
+                View saved reports
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
